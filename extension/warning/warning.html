@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blocked by PhishGuard</title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="warning.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo"><img src="../icons/icon48.png" alt="" width="26" height="26" /></div>
+        <div>
+          <div class="brand-name">PhishGuard</div>
+          <div class="brand-sub">Real-time browser protection</div>
+        </div>
+      </div>
+      <span class="pill info" id="scanType">Checking</span>
+    </header>
+
+    <main class="page">
+      <div id="loadingState" class="loading-state">
+        <div class="spinner big"></div>
+        <p>Re-checking this address…</p>
+        <span class="tiny muted">On-device rules plus cached threat intelligence</span>
+      </div>
+
+      <div id="errorState" class="error-state hidden">
+        <h1>We could not load this report</h1>
+        <p id="errorText" class="muted">The scan may have expired.</p>
+        <div class="row">
+          <button class="btn primary" id="retryBtn" type="button">Try again</button>
+          <button class="btn" id="closeErrorBtn" type="button">Close this tab</button>
+        </div>
+      </div>
+
+      <div id="content" class="hidden">
+        <section class="hero card strong" id="hero">
+          <div class="hero-left">
+            <div class="shield" id="heroIcon"></div>
+            <div class="hero-text">
+              <div class="eyebrow" id="eyebrow">Threat detected</div>
+              <h1 id="headline">This site may be dangerous</h1>
+              <div class="host mono" id="host">—</div>
+              <div class="url mono" id="urlText">—</div>
+            </div>
+          </div>
+          <div id="scoreHolder" class="score-holder"></div>
+        </section>
+
+        <div id="statusBanner" class="status-banner"></div>
+
+        <section class="card pad actions-card">
+          <div class="advice">
+            <h2 id="adviceTitle">Do not continue to this site</h2>
+            <p id="adviceText" class="muted"></p>
+            <ul id="adviceList" class="advice-list"></ul>
+          </div>
+          <div class="action-row">
+            <button id="backBtn" class="btn primary" type="button">Back to safety</button>
+            <button id="detailsBtn" class="btn" type="button">See why</button>
+            <button id="proceedBtn" class="btn ghost danger-text" type="button">Continue anyway</button>
+          </div>
+          <div id="proceedPanel" class="proceed-panel hidden">
+            <label class="ack">
+              <input type="checkbox" id="riskAck" />
+              <span>I understand this site was flagged as dangerous and I accept the risk of visiting it.</span>
+            </label>
+            <div class="row">
+              <button id="continueBtn" class="btn danger" type="button" disabled>Unblock and continue</button>
+              <button id="cancelProceed" class="btn ghost" type="button">Cancel</button>
+            </div>
+          </div>
+          <div class="secondary-row">
+            <button id="trustBtn" class="btn ghost" type="button">Trust this domain</button>
+            <button id="reportBtn" class="btn ghost" type="button">Report a false positive</button>
+            <button id="consoleBtn" class="btn ghost" type="button">Open console</button>
+          </div>
+        </section>
+
+        <section class="card pad" id="reportSection">
+          <div class="between section-head">
+            <h2>Scan report</h2>
+            <div class="row">
+              <button id="copyBtn" class="btn sm" type="button">Copy report</button>
+              <button id="downloadBtn" class="btn sm" type="button">Download report</button>
+              <button id="rescanBtn" class="btn sm" type="button">Re-scan</button>
+            </div>
+          </div>
+          <div id="report"></div>
+        </section>
+
+        <footer class="page-footer">
+          <span>This page was generated locally by PhishGuard. No browsing data was uploaded.</span>
+          <span id="timestamp"></span>
+        </footer>
+      </div>
+    </main>
+
+    <script src="../lib/utils.js"></script>
+    <script src="../lib/constants.js"></script>
+    <script src="../shared/report.js"></script>
+    <script src="warning.js"></script>
+  </body>
+</html>

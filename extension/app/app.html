@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PhishGuard Console</title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo"><img src="../icons/icon48.png" alt="" width="28" height="28" /></div>
+        <div>
+          <div class="brand-name">PhishGuard <span class="version" id="version">v2</span></div>
+          <div class="brand-sub">Local threat console</div>
+        </div>
+      </div>
+      <nav class="header-actions">
+        <span class="pill safe" id="protectionPill"><span class="live-dot"></span> Protection on</span>
+        <button class="btn sm" id="settingsBtn" type="button"></button>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="welcome card strong hidden" id="welcomeCard">
+        <div class="welcome-icon" id="welcomeIcon"></div>
+        <div class="welcome-body">
+          <h2>PhishGuard is now watching your tabs</h2>
+          <p class="muted small">
+            Every navigation is checked locally in milliseconds. Dangerous pages are blocked before they load,
+            and you get an on-page banner for anything suspicious.
+          </p>
+          <ol class="welcome-steps">
+            <li><b>Pin the extension</b> so the score badge is always visible.</li>
+            <li><b>Add API keys</b> (optional) to unlock URLhaus and VirusTotal deep scans.</li>
+            <li><b>Browse normally.</b> Use <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> to deep-scan the current tab.</li>
+          </ol>
+          <div class="row">
+            <button class="btn primary sm" id="welcomeSetup" type="button">Open setup</button>
+            <button class="btn sm" id="welcomeDemo" type="button">Run a demo scan</button>
+            <button class="btn ghost sm" id="welcomeDismiss" type="button">Dismiss</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Phishing &amp; malware check</div>
+          <h1>Check a link before you trust it</h1>
+          <p class="muted">
+            On-device heuristics always run. Deep scans add live URLhaus and VirusTotal intelligence when keys are configured.
+          </p>
+        </div>
+        <form id="scanForm" class="scan-box card strong">
+          <div class="scan-input-row">
+            <span class="input-icon" id="globeIcon" aria-hidden="true"></span>
+            <input
+              id="urlInput"
+              class="input"
+              type="text"
+              placeholder="https://example.com/login"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="URL to scan"
+            />
+            <button class="btn primary" id="scanSubmit" type="submit">Analyze</button>
+          </div>
+          <div class="row between scan-options">
+            <label class="check">
+              <input type="checkbox" id="deepScan" />
+              <span>Deep scan with threat feeds</span>
+            </label>
+            <span class="tiny muted" id="keysHint">No API keys configured</span>
+          </div>
+        </form>
+      </section>
+
+      <div class="content-grid">
+        <section class="card pad result-card">
+          <div class="between section-head">
+            <h2>Result</h2>
+            <span class="tiny muted" id="resultMeta"></span>
+          </div>
+          <div id="resultEmpty" class="empty">
+            <div class="empty-icon" id="emptyIcon"></div>
+            <p>Enter a link above, or scan the current tab with the toolbar popup.</p>
+            <p class="tiny">Offline rules run instantly. Deep scans take a few seconds.</p>
+          </div>
+          <div id="scanProgress" class="progress hidden">
+            <div class="progress-bar"><span></span></div>
+            <div class="progress-text" id="progressText">Working…</div>
+          </div>
+          <div id="result" class="hidden"></div>
+        </section>
+
+        <aside class="side">
+          <section class="card pad">
+            <div class="between section-head">
+              <h2>Protection</h2>
+              <button class="link-btn" id="openOptions" type="button">All settings</button>
+            </div>
+            <div class="toggle-list">
+              <label class="toggle-row">
+                <span class="toggle-text"><b>Block malicious sites</b><span class="tiny muted">Show an interstitial before loading</span></span>
+                <span class="switch"><input type="checkbox" id="optProtection" /><span class="track"></span></span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-text"><b>Block suspicious sites</b><span class="tiny muted">Stricter — may increase false positives</span></span>
+                <span class="switch"><input type="checkbox" id="optBlockSuspicious" /><span class="track"></span></span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-text"><b>Deep scan on visit</b><span class="tiny muted">Uses API quota automatically</span></span>
+                <span class="switch"><input type="checkbox" id="optDeepOnVisit" /><span class="track"></span></span>
+              </label>
+            </div>
+          </section>
+
+          <section class="card pad">
+            <div class="section-head"><h2>Local stats</h2></div>
+            <div class="stats-grid">
+              <div class="stat"><span class="stat-value" id="statScans">0</span><span class="stat-label">Scans</span></div>
+              <div class="stat"><span class="stat-value" id="statBlocked">0</span><span class="stat-label">Blocked</span></div>
+              <div class="stat"><span class="stat-value" id="statTrusted">0</span><span class="stat-label">Trusted</span></div>
+              <div class="stat"><span class="stat-value" id="statDeep">0</span><span class="stat-label">Deep</span></div>
+            </div>
+          </section>
+
+          <section class="card pad">
+            <div class="between section-head">
+              <h2>Threat feeds</h2>
+              <button class="link-btn" id="keysBtn" type="button">Add keys</button>
+            </div>
+            <div class="feed-list">
+              <div class="feed-row"><span class="feed-name">URLhaus</span><span class="pill" id="urlhausStatus">Not configured</span></div>
+              <div class="feed-row"><span class="feed-name">VirusTotal</span><span class="pill" id="virustotalStatus">Not configured</span></div>
+            </div>
+            <p class="tiny muted feed-note">Keys are stored only in this browser profile. Nothing is sent to a PhishGuard server.</p>
+          </section>
+        </aside>
+      </div>
+
+      <section class="card pad history-section">
+        <div class="between section-head">
+          <div class="row">
+            <h2>Scan history</h2>
+            <span class="pill" id="historyCount">0</span>
+          </div>
+          <div class="row">
+            <div class="segmented" id="historyFilters">
+              <button type="button" data-level="all" class="active">All</button>
+              <button type="button" data-level="malicious">Malicious</button>
+              <button type="button" data-level="suspicious">Suspicious</button>
+              <button type="button" data-level="safe">Safe</button>
+            </div>
+            <button class="btn sm" id="exportHistory" type="button">Export</button>
+            <button class="btn sm" id="clearHistory" type="button">Clear</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Address</th>
+                <th>Score</th>
+                <th>Source</th>
+                <th class="right">When</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+          <div class="empty hidden" id="historyEmpty">No scans match this filter yet.</div>
+        </div>
+      </section>
+
+      <section class="card pad">
+        <div class="between section-head">
+          <div class="row"><h2>Trusted domains</h2><span class="pill" id="trustedCount">0</span></div>
+        </div>
+        <form id="trustForm" class="trust-form">
+          <input id="trustInput" class="input" type="text" placeholder="Add a domain, e.g. intranet.example.com" autocomplete="off" />
+          <button class="btn sm" type="submit">Trust domain</button>
+        </form>
+        <div id="trustedList" class="trusted-list"></div>
+      </section>
+
+      <footer class="app-footer">
+        <span>PhishGuard runs entirely in your browser. Threat data from URLhaus (abuse.ch) and VirusTotal when configured.</span>
+        <span class="row"><button class="link-btn" id="privacyBtn" type="button">Privacy</button><button class="link-btn" id="aboutBtn" type="button">About</button></span>
+      </footer>
+    </main>
+
+    <script src="../lib/utils.js"></script>
+    <script src="../lib/constants.js"></script>
+    <script src="../shared/report.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

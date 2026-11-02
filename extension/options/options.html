@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PhishGuard Settings</title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <header class="options-header">
+      <div class="brand">
+        <div class="logo"><img src="../icons/icon48.png" alt="" width="28" height="28" /></div>
+        <div>
+          <div class="brand-name">PhishGuard</div>
+          <div class="brand-sub">Settings <span id="versionPill" class="pill tiny-pill">v2</span></div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="saveState" class="save-state">All changes saved</span>
+        <button id="openConsoleBtn" class="btn sm" type="button">Open console</button>
+      </div>
+    </header>
+
+    <div class="options-shell">
+      <nav class="options-nav" aria-label="Settings sections">
+        <button class="nav-item active" type="button" data-section="protection">
+          <span class="nav-icon" id="navProtection"></span><span>Protection</span>
+        </button>
+        <button class="nav-item" type="button" data-section="feeds">
+          <span class="nav-icon" id="navFeeds"></span><span>Threat feeds</span>
+        </button>
+        <button class="nav-item" type="button" data-section="allowlist">
+          <span class="nav-icon" id="navAllowlist"></span><span>Trusted sites</span>
+        </button>
+        <button class="nav-item" type="button" data-section="privacy">
+          <span class="nav-icon" id="navPrivacy"></span><span>Data &amp; privacy</span>
+        </button>
+        <button class="nav-item" type="button" data-section="tools">
+          <span class="nav-icon" id="navTools"></span><span>Test &amp; tools</span>
+        </button>
+        <button class="nav-item" type="button" data-section="about">
+          <span class="nav-icon" id="navAbout"></span><span>About</span>
+        </button>
+      </nav>
+
+      <main class="options-main">
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel active" id="section-protection">
+          <div class="panel-head">
+            <h1>Protection</h1>
+            <p class="muted">Decide how aggressively PhishGuard watches your browsing. Everything runs on your device.</p>
+          </div>
+
+          <div class="card pad">
+            <div class="setting-row master">
+              <div class="setting-text">
+                <div class="setting-title">PhishGuard protection</div>
+                <div class="setting-desc">Master switch for blocking, banners, badges and automatic checks.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setProtection" /><span class="track"></span></span>
+            </div>
+          </div>
+
+          <div class="card pad" id="protectionGroup">
+            <h2 class="group-title">Blocking</h2>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Block malicious sites</div>
+                <div class="setting-desc">Show a full-screen warning instead of loading the page.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setBlockMalicious" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Also block suspicious sites</div>
+                <div class="setting-desc">Stricter protection. May block unfamiliar sites that are not confirmed malicious.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setBlockSuspicious" /><span class="track"></span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 class="group-title">Detection</h2>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Check every page you open</div>
+                <div class="setting-desc">Run offline heuristics before a page loads. Recommended.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setScanOnVisit" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Deep scan automatically</div>
+                <div class="setting-desc">Query URLhaus and VirusTotal on page visits. Requires an API key and uses quota.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setDeepOnVisit" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Show risk score badge</div>
+                <div class="setting-desc">Display the score on the toolbar icon for risky tabs.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setShowScoreBadge" /><span class="track"></span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 class="group-title">Alerts</h2>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Desktop notifications</div>
+                <div class="setting-desc">System alerts when a dangerous site is blocked or detected.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setNotifications" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">On-page warning banner</div>
+                <div class="setting-desc">Overlay a banner at the top of suspicious pages.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setPageBanners" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Mark dangerous links</div>
+                <div class="setting-desc">Outline links on pages that point to known bad domains.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setMarkLinks" /><span class="track"></span></span>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Warn about insecure login forms</div>
+                <div class="setting-desc">Alert when a password field appears on an unencrypted HTTP page.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setWarnOnHttpLogin" /><span class="track"></span></span>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Risk thresholds</h2>
+            <p class="small muted thresholds-help">
+              Each signal adds points to a 0–100 risk score. Malicious addresses are blocked; suspicious ones get a warning.
+            </p>
+
+            <div class="threshold-block">
+              <div class="between">
+                <label class="setting-title" for="setSuspiciousThreshold">Suspicious at</label>
+                <span class="threshold-value" id="suspiciousValue">40</span>
+              </div>
+              <input type="range" id="setSuspiciousThreshold" min="10" max="90" step="5" />
+              <div class="scale"><span>10 · lenient</span><span>90 · strict</span></div>
+            </div>
+
+            <div class="threshold-block">
+              <div class="between">
+                <label class="setting-title" for="setBlockThreshold">Block at</label>
+                <span class="threshold-value" id="blockValue">70</span>
+              </div>
+              <input type="range" id="setBlockThreshold" min="50" max="100" step="5" />
+              <div class="scale"><span>50 · aggressive</span><span>100 · only confirmed</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel" id="section-feeds">
+          <div class="panel-head">
+            <h1>Threat feeds</h1>
+            <p class="muted">
+              Offline heuristics always work with no keys. Add API keys to check live malware and phishing intelligence too.
+              Keys are stored only in this browser profile and sent directly to each provider.
+            </p>
+          </div>
+
+          <div class="card pad">
+            <div class="feed-head">
+              <div>
+                <h2 class="group-title">URLhaus</h2>
+                <p class="small muted">Abuse.ch malware URL blocklist. Free Auth-Key required.</p>
+              </div>
+              <span class="pill" id="urlhausPill">Not configured</span>
+            </div>
+            <div class="field">
+              <label for="setUrlhausKey">Auth-Key</label>
+              <div class="secret-wrap">
+                <input class="input mono" id="setUrlhausKey" type="password" placeholder="Paste your URLhaus Auth-Key" autocomplete="off" spellcheck="false" />
+                <button class="btn sm ghost reveal" type="button" data-target="setUrlhausKey">Show</button>
+              </div>
+              <span class="hint">Get a free key at <a href="https://auth.abuse.ch/" target="_blank" rel="noreferrer noopener">auth.abuse.ch</a>.</span>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <div class="feed-head">
+              <div>
+                <h2 class="group-title">VirusTotal</h2>
+                <p class="small muted">70+ antivirus engines. Free tier is limited to about 4 lookups per minute.</p>
+              </div>
+              <span class="pill" id="virustotalPill">Not configured</span>
+            </div>
+            <div class="field">
+              <label for="setVirustotalKey">API key</label>
+              <div class="secret-wrap">
+                <input class="input mono" id="setVirustotalKey" type="password" placeholder="Paste your VirusTotal API key" autocomplete="off" spellcheck="false" />
+                <button class="btn sm ghost reveal" type="button" data-target="setVirustotalKey">Show</button>
+              </div>
+              <span class="hint">Create a free key in your <a href="https://www.virustotal.com/gui/my-apikey" target="_blank" rel="noreferrer noopener">VirusTotal profile</a>.</span>
+            </div>
+          </div>
+
+          <div class="card pad feed-note-card">
+            <div class="row">
+              <span class="notice-icon" id="feedLockIcon"></span>
+              <p class="small muted">
+                PhishGuard never sends URLs to a PhishGuard server. When you run a deep scan, the URL is sent directly to the
+                provider(s) you configured. Nothing is uploaded while protection runs offline.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel" id="section-allowlist">
+          <div class="panel-head">
+            <h1>Trusted sites</h1>
+            <p class="muted">Domains listed here skip automatic blocking. Use this for intranet apps or sites you know are safe.</p>
+          </div>
+
+          <div class="card pad">
+            <form id="allowForm" class="allow-form">
+              <input id="allowInput" class="input" type="text" placeholder="Add a domain, e.g. intranet.example.com" autocomplete="off" spellcheck="false" />
+              <button class="btn primary sm" type="submit">Trust domain</button>
+            </form>
+            <p class="tiny muted allow-hint">Subdomains are covered automatically. Wildcards are not needed.</p>
+            <div id="allowList" class="allow-list"></div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel" id="section-privacy">
+          <div class="panel-head">
+            <h1>Data &amp; privacy</h1>
+            <p class="muted">PhishGuard keeps everything in your browser. These controls decide what is remembered.</p>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">History</h2>
+
+            <div class="setting-row">
+              <div class="setting-text">
+                <div class="setting-title">Redact URLs in history</div>
+                <div class="setting-desc">Store only the scheme, host and first path segment — never queries or fragments.</div>
+              </div>
+              <span class="switch"><input type="checkbox" id="setRedactHistory" /><span class="track"></span></span>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="setHistoryLimit">History entries to keep</label>
+                <input class="input" id="setHistoryLimit" type="number" min="10" max="500" step="10" />
+              </div>
+              <div class="field">
+                <label for="setCacheTtl">Cache verdicts for (hours)</label>
+                <input class="input" id="setCacheTtl" type="number" min="1" max="168" step="1" />
+              </div>
+            </div>
+
+            <div class="row data-actions">
+              <button class="btn sm" id="clearHistoryBtn" type="button">Clear history</button>
+              <button class="btn sm" id="clearCacheBtn" type="button">Clear cached verdicts</button>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Backup</h2>
+            <p class="small muted">Export settings, trusted sites and history to a JSON file, or restore a previous backup.</p>
+            <div class="row data-actions">
+              <button class="btn sm" id="exportBtn" type="button">Export backup</button>
+              <button class="btn sm" id="importBtn" type="button">Import backup</button>
+              <input id="importFile" type="file" accept="application/json,.json" class="hidden" />
+            </div>
+          </div>
+
+          <div class="card pad danger-zone">
+            <h2 class="group-title">Reset</h2>
+            <p class="small muted">Remove all PhishGuard data from this browser and restore default settings. This cannot be undone.</p>
+            <button class="btn danger sm" id="resetAllBtn" type="button">Reset everything</button>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel" id="section-tools">
+          <div class="panel-head">
+            <h1>Test &amp; tools</h1>
+            <p class="muted">Check that detection and alerts work, and try the engine on any address.</p>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Alert test</h2>
+            <p class="small muted">Send a test notification to confirm the browser allows PhishGuard alerts.</p>
+            <div class="row">
+              <button class="btn sm" id="testNotifyBtn" type="button">Send test notification</button>
+              <span class="tiny muted" id="notifyResult"></span>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Scan a URL</h2>
+            <form id="testForm" class="allow-form">
+              <input id="testInput" class="input" type="text" placeholder="https://example.com" autocomplete="off" spellcheck="false" />
+              <button class="btn primary sm" type="submit">Scan</button>
+            </form>
+            <div class="row test-options">
+              <label class="check"><input type="checkbox" id="testDeep" /><span>Deep scan with feeds</span></label>
+              <span class="tiny muted" id="testDeepHint">No API keys configured</span>
+            </div>
+            <div id="testResult" class="test-result"></div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Try the warning page</h2>
+            <p class="small muted">Open the blocked-site interstitial with a demonstration report to see what users get.</p>
+            <div class="row">
+              <button class="btn sm" id="demoWarningBtn" type="button">Open demo warning</button>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Keyboard shortcuts</h2>
+            <div class="shortcut-list">
+              <div class="shortcut-row"><span>Deep-scan the current tab</span><kbd id="shortcutScan">Alt+Shift+S</kbd></div>
+              <div class="shortcut-row"><span>Open the console</span><kbd id="shortcutConsole">Alt+Shift+P</kbd></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------------------- -->
+        <section class="panel" id="section-about">
+          <div class="panel-head">
+            <h1>About PhishGuard</h1>
+            <p class="muted">A private, local-first phishing and malware guard for your browser.</p>
+          </div>
+
+          <div class="card pad about-card">
+            <div class="about-brand">
+              <div class="logo big"><img src="../icons/icon128.png" alt="" width="56" height="56" /></div>
+              <div>
+                <div class="about-name">PhishGuard</div>
+                <div class="tiny muted" id="aboutVersion">Version —</div>
+              </div>
+            </div>
+            <p class="small muted about-blurb">
+              Every link is checked against on-device heuristics before it loads. Optional deep scans add URLhaus and
+              VirusTotal intelligence. Nothing leaves your browser unless you configure an API key and run a deep scan.
+            </p>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Detection engine</h2>
+            <div class="about-grid">
+              <div class="about-stat"><span class="about-stat-value" id="brandCount">—</span><span class="about-stat-label">Brands protected</span></div>
+              <div class="about-stat"><span class="about-stat-value" id="tldCount">—</span><span class="about-stat-label">Abused TLDs tracked</span></div>
+              <div class="about-stat"><span class="about-stat-value" id="trustedCount">—</span><span class="about-stat-label">Trusted domains</span></div>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <h2 class="group-title">Credits</h2>
+            <ul class="credit-list">
+              <li><a href="https://urlhaus.abuse.ch/" target="_blank" rel="noreferrer noopener">URLhaus</a> by abuse.ch — malware URL data.</li>
+              <li><a href="https://www.virustotal.com/" target="_blank" rel="noreferrer noopener">VirusTotal</a> — multi-engine URL analysis.</li>
+            </ul>
+            <p class="tiny muted">
+              Threat intelligence is used under each provider's terms. PhishGuard is not affiliated with either service.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../lib/utils.js"></script>
+    <script src="../lib/constants.js"></script>
+    <script src="../shared/report.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

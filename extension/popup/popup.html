@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PhishGuard</title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo"><img src="../icons/icon32.png" alt="" width="22" height="22" /></div>
+        <div class="brand-text">
+          <div class="brand-name">PhishGuard</div>
+          <div class="brand-status" id="protectionStatus">Protection on</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="toggleProtection" class="icon-btn" title="Turn protection off" aria-label="Toggle protection"></button>
+        <button id="openOptions" class="icon-btn" title="Settings" aria-label="Open settings"></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="card strong site-card">
+        <div class="between">
+          <div class="site">
+            <div class="eyebrow">Current tab</div>
+            <div id="siteHost" class="site-host">Checking…</div>
+            <div id="siteSub" class="tiny muted">Reading tab information</div>
+          </div>
+          <button id="scanTabBtn" class="btn primary sm" type="button">Scan page</button>
+        </div>
+        <div id="tabResult" class="result-container hidden"></div>
+        <div id="siteActions" class="row hidden">
+          <button id="openReport" class="btn sm" type="button">Full report</button>
+          <button id="saveReport" class="btn sm" type="button">Save report</button>
+          <button id="trustSite" class="btn ghost sm" type="button">Trust site</button>
+        </div>
+      </section>
+
+      <section class="card quick-scan">
+        <form id="scanForm" class="scan-form">
+          <div class="input-wrap">
+            <span class="input-icon" id="globeIcon" aria-hidden="true"></span>
+            <input
+              id="urlInput"
+              class="input"
+              type="text"
+              placeholder="Paste a link to analyze"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="URL to scan"
+            />
+          </div>
+          <button id="scanBtn" class="btn primary" type="submit">Scan</button>
+        </form>
+        <div class="row between deep-row">
+          <label class="deep-toggle">
+            <input type="checkbox" id="deepScan" />
+            <span>Deep scan with threat feeds</span>
+          </label>
+          <span id="keysHint" class="tiny muted">No API keys</span>
+        </div>
+        <div id="scanError" class="error-box hidden" role="alert"></div>
+        <div id="scanLoading" class="loading-row hidden">
+          <span class="spinner"></span>
+          <span id="loadingText">Checking threat intelligence…</span>
+        </div>
+        <div id="scanResult" class="result-container hidden"></div>
+      </section>
+
+      <section class="card history-card">
+        <div class="between">
+          <div class="row">
+            <span class="section-icon" id="historyIcon" aria-hidden="true"></span>
+            <h2 class="section-title">Recent activity</h2>
+          </div>
+          <div class="row">
+            <button id="openConsole" class="link-btn" type="button">Console</button>
+            <button id="clearHistory" class="link-btn" type="button">Clear</button>
+          </div>
+        </div>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </main>
+
+    <footer class="popup-footer">
+      <span id="footerNote">On-device rules run on every tab.</span>
+      <button id="footerLink" class="link-btn" type="button">Privacy</button>
+    </footer>
+
+    <script src="../lib/utils.js"></script>
+    <script src="../lib/constants.js"></script>
+    <script src="../shared/report.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

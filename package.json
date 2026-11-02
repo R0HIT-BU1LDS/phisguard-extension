@@ -1,0 +1,16 @@
+{
+  "name": "phisguard-extension",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser extension that blocks phishing and malware sites before they load.",
+  "scripts": {
+    "build": "node scripts/build-extension.mjs",
+    "test": "node scripts/test-heuristics.mjs",
+    "icons": "node scripts/generate-icons.mjs",
+    "keys:seed": "node scripts/make-seed-backup.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

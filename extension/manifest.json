@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "PhishGuard — Phishing & Malware Protection",
+  "short_name": "PhishGuard",
+  "version": "2.0.0",
+  "description": "Blocks phishing and malware sites before they load. Offline detection on every tab, with optional URLhaus and VirusTotal deep scans.",
+  "minimum_chrome_version": "102",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "PhishGuard",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation",
+    "notifications",
+    "contextMenus",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content/content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "scan-current-tab": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Deep-scan the current tab"
+    },
+    "open-console": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "Open the PhishGuard console"
+    }
+  },
+  "omnibox": {
+    "keyword": "pg"
+  }
+}

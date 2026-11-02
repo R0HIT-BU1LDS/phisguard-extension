@@ -1,0 +1,23 @@
+node_modules
+dist
+dist-ssr
+
+# Local secrets — never commit API keys
+*.local.json
+local-keys.json
+secrets.json
+.env
+.env.local
+.env.*.local
+
+# Build output
+*.zip
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.sw?
